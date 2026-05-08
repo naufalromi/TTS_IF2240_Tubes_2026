@@ -10,17 +10,17 @@ DROP TABLE IF EXISTS post;
 DROP TABLE IF EXISTS tiktik_profile;
 DROP TABLE IF EXISTS instagrwm_profile;
 DROP TABLE IF EXISTS social_media_profile;
-DROP TABLE IF EXISTS task;
-DROP TABLE IF EXISTS collaborates;
-DROP TABLE IF EXISTS campaign;
-DROP TABLE IF EXISTS brand_telephone;
-DROP TABLE IF EXISTS brand;
-DROP TABLE IF EXISTS list_entry;
 DROP TABLE IF EXISTS influencer_list;
-DROP TABLE IF EXISTS joins_user_workspace;
 DROP TABLE IF EXISTS influencer;
+DROP TABLE IF EXISTS task;
+DROP TABLE IF EXISTS campaign;
+DROP TABLE IF EXISTS brand;
 DROP TABLE IF EXISTS workspace;
 DROP TABLE IF EXISTS user_account;
+DROP TABLE IF EXISTS collaborates;
+DROP TABLE IF EXISTS joins_user_workspace;
+DROP TABLE IF EXISTS list_entry;
+DROP TABLE IF EXISTS brand_telephone;
 
 SET FOREIGN_KEY_CHECKS = 1;
 
