@@ -1,26 +1,29 @@
 -- =========================================================
--- Milestone 2 - Schema and Seed Data
+-- Milestone 2 - Schema and Seed Data (MariaDB / MySQL)
 -- Generated using @faker-js/faker (NodeJS Faker)
 -- =========================================================
 
--- Drop existing tables (in reverse dependency order)
-DROP TABLE IF EXISTS profile_day_metric CASCADE;
-DROP TABLE IF EXISTS post CASCADE;
-DROP TABLE IF EXISTS tiktik_profile CASCADE;
-DROP TABLE IF EXISTS instagrwm_profile CASCADE;
-DROP TABLE IF EXISTS social_media_profile CASCADE;
-DROP TABLE IF EXISTS assign CASCADE;
-DROP TABLE IF EXISTS task CASCADE;
-DROP TABLE IF EXISTS collaborates CASCADE;
-DROP TABLE IF EXISTS campaign CASCADE;
-DROP TABLE IF EXISTS brand_telephone CASCADE;
-DROP TABLE IF EXISTS brand CASCADE;
-DROP TABLE IF EXISTS save CASCADE;
-DROP TABLE IF EXISTS list CASCADE;
-DROP TABLE IF EXISTS joins CASCADE;
-DROP TABLE IF EXISTS influencer CASCADE;
-DROP TABLE IF EXISTS workspace CASCADE;
-DROP TABLE IF EXISTS user_account CASCADE;
+SET FOREIGN_KEY_CHECKS = 0;
+
+DROP TABLE IF EXISTS profile_day_metric;
+DROP TABLE IF EXISTS post;
+DROP TABLE IF EXISTS tiktik_profile;
+DROP TABLE IF EXISTS instagrwm_profile;
+DROP TABLE IF EXISTS social_media_profile;
+DROP TABLE IF EXISTS `assign`;
+DROP TABLE IF EXISTS task;
+DROP TABLE IF EXISTS collaborates;
+DROP TABLE IF EXISTS campaign;
+DROP TABLE IF EXISTS brand_telephone;
+DROP TABLE IF EXISTS brand;
+DROP TABLE IF EXISTS `save`;
+DROP TABLE IF EXISTS list;
+DROP TABLE IF EXISTS `joins`;
+DROP TABLE IF EXISTS influencer;
+DROP TABLE IF EXISTS workspace;
+DROP TABLE IF EXISTS user_account;
+
+SET FOREIGN_KEY_CHECKS = 1;
 
 -- =========================================================
 -- CREATE TABLE statements
@@ -44,7 +47,7 @@ CREATE TABLE influencer (
   real_name     VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE joins (
+CREATE TABLE `joins` (
   user_id      VARCHAR(20) NOT NULL,
   workspace_id VARCHAR(20) NOT NULL,
   PRIMARY KEY (user_id, workspace_id),
@@ -59,7 +62,7 @@ CREATE TABLE list (
   FOREIGN KEY (workspace_id) REFERENCES workspace(workspace_id)
 );
 
-CREATE TABLE save (
+CREATE TABLE `save` (
   user_id       VARCHAR(20) NOT NULL,
   list_id       VARCHAR(20) NOT NULL,
   influencer_id VARCHAR(20) NOT NULL,
@@ -113,12 +116,12 @@ CREATE TABLE task (
   task_title      VARCHAR(150) NOT NULL,
   task_type       VARCHAR(40) NOT NULL,
   deadline        DATE,
-  price           NUMERIC(14,2),
+  price           DECIMAL(14,2),
   task_status     VARCHAR(30) NOT NULL,
   task_detail     TEXT
 );
 
-CREATE TABLE assign (
+CREATE TABLE `assign` (
   task_id       VARCHAR(20) NOT NULL,
   campaign_id   VARCHAR(20) NOT NULL,
   influencer_id VARCHAR(20) NOT NULL,
@@ -131,14 +134,14 @@ CREATE TABLE social_media_profile (
   social_media_profile_id VARCHAR(20) PRIMARY KEY,
   influencer_id           VARCHAR(20) NOT NULL,
   handle                  VARCHAR(60) NOT NULL,
-  followers_count         INTEGER NOT NULL,
+  followers_count         INT NOT NULL,
   verified_status         VARCHAR(20) NOT NULL,
   FOREIGN KEY (influencer_id) REFERENCES influencer(influencer_id)
 );
 
 CREATE TABLE instagrwm_profile (
   social_media_profile_id VARCHAR(20) PRIMARY KEY,
-  total_post              INTEGER NOT NULL,
+  total_post              INT NOT NULL,
   FOREIGN KEY (social_media_profile_id) REFERENCES social_media_profile(social_media_profile_id)
 );
 
@@ -153,17 +156,17 @@ CREATE TABLE post (
   task_id                 VARCHAR(20) NOT NULL,
   social_media_profile_id VARCHAR(20) NOT NULL,
   post_url                VARCHAR(255) NOT NULL,
-  like_count              INTEGER NOT NULL,
-  view_count              INTEGER NOT NULL,
+  like_count              INT NOT NULL,
+  view_count              INT NOT NULL,
   FOREIGN KEY (task_id) REFERENCES task(task_id),
   FOREIGN KEY (social_media_profile_id) REFERENCES social_media_profile(social_media_profile_id)
 );
 
 CREATE TABLE profile_day_metric (
   social_media_profile_id VARCHAR(20) NOT NULL,
-  date                    DATE NOT NULL,
-  followers               INTEGER NOT NULL,
-  PRIMARY KEY (social_media_profile_id, date),
+  `date`                  DATE NOT NULL,
+  followers               INT NOT NULL,
+  PRIMARY KEY (social_media_profile_id, `date`),
   FOREIGN KEY (social_media_profile_id) REFERENCES social_media_profile(social_media_profile_id)
 );
 
@@ -241,7 +244,7 @@ INSERT INTO influencer (influencer_id, email, real_name) VALUES
   ('INF0020', 'horace21@yahoo.com', 'Mr. Dominic Schulist');
 
 -- 100 rows for joins
-INSERT INTO joins (user_id, workspace_id) VALUES
+INSERT INTO `joins` (user_id, workspace_id) VALUES
   ('USR0014', 'WS0016'),
   ('USR0014', 'WS0006'),
   ('USR0003', 'WS0001'),
@@ -397,7 +400,7 @@ INSERT INTO list (list_id, workspace_id, nama_list) VALUES
   ('LST0050', 'WS0006', 'Sport Athletes 33');
 
 -- 150 rows for save
-INSERT INTO save (user_id, list_id, influencer_id, reason) VALUES
+INSERT INTO `save` (user_id, list_id, influencer_id, reason) VALUES
   ('USR0015', 'LST0023', 'INF0002', 'Previous collaboration success'),
   ('USR0007', 'LST0001', 'INF0008', 'Aesthetic matches campaign'),
   ('USR0018', 'LST0022', 'INF0014', 'Brand fit match'),
@@ -865,7 +868,7 @@ INSERT INTO task (campaign_id, collaborates_id, task_id, task_title, task_type, 
   ('CMG0007', 'COL0050', 'TSK0050', 'Instagram Story - Fresh Towels', 'Instagram Reel', '2026-06-15', 40225479.05, 'Done', 'Subvenio cunae cupiditas asper pauper pauci. Creptio dolor occaecati pariatur deputo nostrum depereo thymbra terga aut.');
 
 -- 100 rows for assign
-INSERT INTO assign (task_id, campaign_id, influencer_id) VALUES
+INSERT INTO `assign` (task_id, campaign_id, influencer_id) VALUES
   ('TSK0024', 'CMG0041', 'INF0018'),
   ('TSK0018', 'CMG0002', 'INF0018'),
   ('TSK0026', 'CMG0033', 'INF0016'),
@@ -1230,7 +1233,7 @@ INSERT INTO post (post_id, task_id, social_media_profile_id, post_url, like_coun
   ('PST0100', 'TSK0026', 'SMP0005', 'https://youtube.com/shorts/2q4sCmX8Vdv', 40926, 4950264);
 
 -- 50 rows for profile_day_metric
-INSERT INTO profile_day_metric (social_media_profile_id, date, followers) VALUES
+INSERT INTO profile_day_metric (social_media_profile_id, `date`, followers) VALUES
   ('SMP0028', '2026-04-27', 4092572),
   ('SMP0038', '2026-03-27', 98471),
   ('SMP0001', '2026-03-06', 2384169),
