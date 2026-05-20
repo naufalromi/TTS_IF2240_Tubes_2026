@@ -1,9 +1,9 @@
 /*M!999999\- enable the sandbox mode */ 
--- MariaDB dump 10.19-11.8.6-MariaDB, for Win64 (AMD64)
+-- MariaDB dump 10.19  Distrib 10.11.14-MariaDB, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: beehave
 -- ------------------------------------------------------
--- Server version	11.8.6-MariaDB
+-- Server version	10.11.14-MariaDB-0ubuntu0.24.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -14,7 +14,7 @@
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*M!100616 SET @OLD_NOTE_VERBOSITY=@@NOTE_VERBOSITY, NOTE_VERBOSITY=0 */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
 -- Table structure for table `brand`
@@ -30,10 +30,11 @@ CREATE TABLE `brand` (
   `industry_field` varchar(60) DEFAULT NULL,
   `street` varchar(150) DEFAULT NULL,
   `city` varchar(60) DEFAULT NULL,
-  `province` varchar(60) DEFAULT NULL,
   PRIMARY KEY (`company_id`),
   UNIQUE KEY `uq_companyname_per_workspace` (`workspace_id`,`company_name`),
   UNIQUE KEY `uq_rel_companyname_per_workspace` (`workspace_id`,`company_name`),
+  KEY `fk_brand_region` (`street`,`city`),
+  CONSTRAINT `fk_brand_region` FOREIGN KEY (`street`, `city`) REFERENCES `region` (`street`, `city`) ON DELETE NO ACTION ON UPDATE CASCADE,
   CONSTRAINT `fk_brand_workspace` FOREIGN KEY (`workspace_id`) REFERENCES `workspace` (`workspace_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -42,114 +43,111 @@ CREATE TABLE `brand` (
 -- Dumping data for table `brand`
 --
 
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `brand` WRITE;
 /*!40000 ALTER TABLE `brand` DISABLE KEYS */;
 INSERT INTO `brand` VALUES
-(1,23,'Conroy, Dicki and Purdy','Garden','471 Ebert Extension','Doloresburgh','New York'),
-(2,11,'Cummings Group','Electronics','6334 Bethany Forks','Tiaton','Florida'),
-(3,19,'Will - Gerhold','Toys','54477 White Causeway','Norwoodberg','Missouri'),
-(4,3,'Parisian, Wiegand and Abbott','Outdoors','6876 Bartell Islands','Lubowitzside','Oregon'),
-(5,15,'Ledner and Sons','Home','9375 Cory Trail','Horaceworth','Florida'),
-(6,26,'Cormier-Luettgen Inc','Sports','8801 Michaela Manor','East Ida','Mississippi'),
-(7,28,'Wehner, Bosco and Ledner','Sports','641 Sheryl Cliffs','New Mable','Texas'),
-(8,16,'Larkin, Nienow and Emmerich','Outdoors','44550 Adams Ways','Beckerside','Indiana'),
-(9,19,'Nikolaus - Spinka','Baby','109 W North Street','Manchester','Vermont'),
-(10,25,'Padberg - Fay','Garden','7971 Kings Highway','Laguna Niguel','Vermont'),
-(11,9,'Murphy - Tremblay','Clothing','8761 E 7th Street','East Milo','Wisconsin'),
-(12,6,'Rippin - Trantow','Beauty','821 S 9th Street','Kimberlymouth','Tennessee'),
-(13,8,'Dibbert, Keebler and Durgan','Grocery','52950 Bernier Bridge','East Randalstead','Iowa'),
-(14,10,'Franecki Inc','Jewelry','458 Main Street','New Delia','Wisconsin'),
-(15,23,'Hirthe - Funk','Computers','7649 Jordon Road','Lake Vernice','Vermont'),
-(16,8,'Sawayn, Corwin and Volkman','Automotive','74941 Hyatt Hills','Santa Maria','Missouri'),
-(17,12,'Lehner Group','Grocery','55786 Antoinette Point','Bobbieworth','Arizona'),
-(18,17,'O\'Reilly, Gerlach and Langosh','Baby','725 Lynch Shores','Parker','Louisiana'),
-(19,3,'Rodriguez - Kutch','Movies','573 Fisher Cove','North Nina','Iowa'),
-(20,3,'Yost, Collins and Shanahan','Music','9817 Steve Lock','Buckridgeville','Rhode Island'),
-(21,12,'Miller - Corwin','Health','25581 East Road','East Maritza','Utah'),
-(22,17,'Dietrich, Bogan and Lebsack','Sports','61054 Melissa Roads','Bergstromshire','New York'),
-(23,25,'White Inc','Toys','84219 Walnut Street','East Hassanview','Oklahoma'),
-(24,11,'Balistreri LLC','Health','4332 1st Avenue','North Vivianbury','Louisiana'),
-(25,4,'Rogahn Inc','Clothing','835 Highfield Close','Schulistfort','Michigan'),
-(26,24,'Paucek-Nolan, Larkin and Schultz','Home','813 Bartoletti Coves','Coachella','Illinois'),
-(27,20,'Graham, Toy and Torp','Computers','861 Rita Mills','Fay-Simoniston','Florida'),
-(28,8,'Keeling, Altenwerth and Gleason','Beauty','683 Roman Way','North Dianaburgh','South Dakota'),
-(29,5,'McCullough - Gulgowski','Games','1379 Labadie-Ortiz Light','South Megane','Maine'),
-(30,14,'Champlin Inc','Computers','85603 Gibson Corners','Lake Aldaburgh','Minnesota'),
-(31,29,'Bogan-Connelly Group','Computers','774 Adams Avenue','Wunschview','Kansas'),
-(32,5,'Stamm - Swift','Jewelry','89332 N Market Street','Lorenzachester','New Mexico'),
-(33,4,'Gutmann - Wehner','Tools','58277 Koss Glens','Victorville','Texas'),
-(34,23,'Johnston Inc','Jewelry','9532 Howard Road','Philipside','Iowa'),
-(35,5,'Stracke - Veum','Outdoors','9735 Ankunding Expressway','Millston','Massachusetts'),
-(36,6,'Hessel Inc','Electronics','53768 Balmoral Road','Waelchiville','Utah'),
-(37,8,'Cassin - Wolff','Health','83920 Leda Burgs','North Bonnieberg','Virginia'),
-(38,8,'Goodwin, Monahan and Prohaska-Auer','Movies','32437 Central Avenue','North Lexiefield','Vermont'),
-(39,6,'Anderson, Bruen and Bartell','Movies','881 River Street','Royshire','Alaska'),
-(40,12,'Baumbach - Schiller','Kids','30715 Simon Shore','New Milanfurt','Missouri'),
-(41,28,'Tremblay - Braun','Jewelry','98962 Rodger Mews','East Rhianna','Wyoming'),
-(42,6,'Bernier - Effertz','Industrial','154 Woodlands Road','East Lucioberg','Kentucky'),
-(43,8,'Bradtke LLC','Toys','859 Gladstone Road','Metzville','New Mexico'),
-(44,20,'Greenholt - Bruen','Tools','4708 Vandervort-Cronin Fort','Fort Markworth','Florida'),
-(45,11,'Sauer LLC','Beauty','932 Cormier Dale','Rolandoborough','Montana'),
-(46,24,'Schaden Inc','Shoes','6998 Simon Mountain','Fort Isac','Oklahoma'),
-(47,28,'Bosco Inc','Outdoors','1121 N 5th Street','Lake Malikashire','Wisconsin'),
-(48,28,'Cole - Donnelly','Games','3269 Alda Green','North Angelo','Michigan'),
-(49,25,'Heathcote Inc','Music','7385 Roger Brook','Middletown','Alabama'),
-(50,1,'Sawayn, Grimes and Yundt','Jewelry','201 Oak Street','Haileystead','Connecticut'),
-(51,33,'Medhurst Group','Baby','73025 Jones Trace','Devenfield','Louisiana'),
-(52,58,'Ankunding LLC','Games','54653 Derby Road','Port Hannahview','Kansas'),
-(53,46,'Beer Group','Beauty','95976 Yolanda Rapid','Corona','Pennsylvania'),
-(54,40,'Klocko - Beatty','Beauty','929 Priscilla Junctions','East Olaffield','Oregon'),
-(55,48,'Mitchell Inc','Sports','5250 Rex Extension','Terenceview','Mississippi'),
-(56,57,'Parker LLC','Books','5872 Wiza Corner','Rachaelborough','Louisiana'),
-(57,44,'Labadie, Marks and Doyle','Kids','28453 Kent Road','Port Mya','Nevada'),
-(58,32,'Beer-O\'Reilly, Crooks and Johns','Automotive','459 Justen Ville','East Kate','Arkansas'),
-(59,59,'Roob Group','Grocery','6211 S Main','Keelingfort','North Carolina'),
-(60,40,'McDermott, Ferry and West','Baby','42157 Dayana Views','North Sean','Hawaii'),
-(61,47,'Witting Inc','Movies','465 West Streets','Horacestead','Montana'),
-(62,55,'Ondricka-O\'Hara, Rodriguez and Kuvalis','Health','22892 Flavie Viaduct','Honolulu','Indiana'),
-(63,39,'Fay Group','Automotive','8183 Delia Well','Port Darin','Alaska'),
-(64,58,'Roberts - Fadel','Automotive','28426 S Grand Avenue','New Dantetown','Wyoming'),
-(65,52,'Gleichner - Heathcote','Grocery','7877 Dooley Lock','West Claude','Georgia'),
-(66,39,'Aufderhar - Turcotte','Toys','826 Juniper Close','Lake Tedchester','New Mexico'),
-(67,55,'Koss Group','Books','5289 Lindgren Ramp','North Marleechester','Alaska'),
-(68,56,'Rice and Sons','Health','8225 University Avenue','Fort Sandrastad','Delaware'),
-(69,32,'Harvey - Jerde','Computers','698 Stokes Union','New Ebonyside','Montana'),
-(70,44,'Lesch - Jacobi','Toys','80175 Spring Gardens','Patsyport','Alabama'),
-(71,31,'Friesen Inc','Grocery','4463 Schaden Streets','North Jana','New York'),
-(72,31,'Wintheiser, Thompson and Bayer','Industrial','3593 Crystal Light','Napa','Washington'),
-(73,42,'Huels - Bogan','Computers','853 Hugh Landing','Fort Mayetown','Vermont'),
-(74,32,'McLaughlin Inc','Garden','3865 Evelyn Hill','Great Falls','West Virginia'),
-(75,60,'Marks - Fisher','Jewelry','75130 Gibson Unions','O\'Connellcester','Florida'),
-(76,43,'Willms LLC','Music','35754 Bradford Station','North Gilberto','North Carolina'),
-(77,57,'Oberbrunner Group','Tools','3290 Leffler Oval','Grimesside','Colorado'),
-(78,43,'Bernier - Bode','Kids','8736 Meadow Close','Kuhlmanchester','Illinois'),
-(79,50,'Stark, Stamm and Strosin','Grocery','63667 Stroman Flat','East Vitaworth','Vermont'),
-(80,42,'Huel LLC','Books','7961 Beechwood Avenue','North Abrahamport','South Dakota'),
-(81,48,'Bode, Gerlach and Conn','Industrial','139 Delaney Fields','Essieboro','Kentucky'),
-(82,43,'Nicolas and Sons','Sports','19119 Adonis Heights','Lionelchester','Florida'),
-(83,36,'Marks Inc','Industrial','45505 Moss Lane','Trevorton','Vermont'),
-(84,58,'Crist, Hermiston and Morissette','Shoes','996 Cole Mall','South Gustavoshire','Alaska'),
-(85,44,'Moore-Gottlieb LLC','Electronics','334 Cronin-Mosciski Place','Rogahnstead','Indiana'),
-(86,48,'Kozey - Effertz','Computers','9793 Sonja Flat','West Marcella','Wyoming'),
-(87,46,'Bins, Hills and Monahan','Kids','4214 Annalise Knolls','Wilkinson-Gusikowskicester','California'),
-(88,42,'Padberg - Lowe','Grocery','9433 North Road','Johnsonview','Alabama'),
-(89,37,'Schultz, Mills-King and Mann','Movies','961 E 12th Street','West Kianmouth','Washington'),
-(90,42,'Brown - Kling','Tools','4592 S 10th Street','New Julio','South Dakota'),
-(91,42,'Halvorson - Becker','Computers','43167 McLaughlin Cape','Flint','Arizona'),
-(92,46,'Boyer, McClure and Kerluke','Automotive','513 Durgan-Sawayn Port','Nicolasberg','Virginia'),
-(93,33,'Torp LLC','Games','1182 Judah Parkway','Weymouth Town','Iowa'),
-(94,39,'Hettinger - Hoppe','Clothing','25354 Runolfsdottir Gardens','North Juliemouth','North Dakota'),
-(95,43,'Schmeler Group','Books','23637 St Mary\'s Road','Lake Kirk','Illinois'),
-(96,42,'Sawayn, Herman and Douglas','Jewelry','8611 Fritsch Meadow','Kuvalishaven','Kansas'),
-(97,49,'Huel, O\'Connell and Smitham','Baby','36389 Lucius Junctions','East Huldacester','South Dakota'),
-(98,34,'Little - Terry','Outdoors','83021 Keebler Mountains','Fort Aleenbury','Delaware'),
-(99,40,'Erdman - Schneider','Automotive','7997 Brigitte Lakes','Lillianside','Missouri'),
-(100,35,'Towne, Davis and Ratke','Games','4807 Alicia Forest','Lake Fidelview','Indiana');
+(1,23,'Conroy, Dicki and Purdy','Garden','471 Ebert Extension','Doloresburgh'),
+(2,11,'Cummings Group','Electronics','6334 Bethany Forks','Tiaton'),
+(3,19,'Will - Gerhold','Toys','54477 White Causeway','Norwoodberg'),
+(4,3,'Parisian, Wiegand and Abbott','Outdoors','6876 Bartell Islands','Lubowitzside'),
+(5,15,'Ledner and Sons','Home','9375 Cory Trail','Horaceworth'),
+(6,26,'Cormier-Luettgen Inc','Sports','8801 Michaela Manor','East Ida'),
+(7,28,'Wehner, Bosco and Ledner','Sports','641 Sheryl Cliffs','New Mable'),
+(8,16,'Larkin, Nienow and Emmerich','Outdoors','44550 Adams Ways','Beckerside'),
+(9,19,'Nikolaus - Spinka','Baby','109 W North Street','Manchester'),
+(10,25,'Padberg - Fay','Garden','7971 Kings Highway','Laguna Niguel'),
+(11,9,'Murphy - Tremblay','Clothing','8761 E 7th Street','East Milo'),
+(12,6,'Rippin - Trantow','Beauty','821 S 9th Street','Kimberlymouth'),
+(13,8,'Dibbert, Keebler and Durgan','Grocery','52950 Bernier Bridge','East Randalstead'),
+(14,10,'Franecki Inc','Jewelry','458 Main Street','New Delia'),
+(15,23,'Hirthe - Funk','Computers','7649 Jordon Road','Lake Vernice'),
+(16,8,'Sawayn, Corwin and Volkman','Automotive','74941 Hyatt Hills','Santa Maria'),
+(17,12,'Lehner Group','Grocery','55786 Antoinette Point','Bobbieworth'),
+(18,17,'O\'Reilly, Gerlach and Langosh','Baby','725 Lynch Shores','Parker'),
+(19,3,'Rodriguez - Kutch','Movies','573 Fisher Cove','North Nina'),
+(20,3,'Yost, Collins and Shanahan','Music','9817 Steve Lock','Buckridgeville'),
+(21,12,'Miller - Corwin','Health','25581 East Road','East Maritza'),
+(22,17,'Dietrich, Bogan and Lebsack','Sports','61054 Melissa Roads','Bergstromshire'),
+(23,25,'White Inc','Toys','84219 Walnut Street','East Hassanview'),
+(24,11,'Balistreri LLC','Health','4332 1st Avenue','North Vivianbury'),
+(25,4,'Rogahn Inc','Clothing','835 Highfield Close','Schulistfort'),
+(26,24,'Paucek-Nolan, Larkin and Schultz','Home','813 Bartoletti Coves','Coachella'),
+(27,20,'Graham, Toy and Torp','Computers','861 Rita Mills','Fay-Simoniston'),
+(28,8,'Keeling, Altenwerth and Gleason','Beauty','683 Roman Way','North Dianaburgh'),
+(29,5,'McCullough - Gulgowski','Games','1379 Labadie-Ortiz Light','South Megane'),
+(30,14,'Champlin Inc','Computers','85603 Gibson Corners','Lake Aldaburgh'),
+(31,29,'Bogan-Connelly Group','Computers','774 Adams Avenue','Wunschview'),
+(32,5,'Stamm - Swift','Jewelry','89332 N Market Street','Lorenzachester'),
+(33,4,'Gutmann - Wehner','Tools','58277 Koss Glens','Victorville'),
+(34,23,'Johnston Inc','Jewelry','9532 Howard Road','Philipside'),
+(35,5,'Stracke - Veum','Outdoors','9735 Ankunding Expressway','Millston'),
+(36,6,'Hessel Inc','Electronics','53768 Balmoral Road','Waelchiville'),
+(37,8,'Cassin - Wolff','Health','83920 Leda Burgs','North Bonnieberg'),
+(38,8,'Goodwin, Monahan and Prohaska-Auer','Movies','32437 Central Avenue','North Lexiefield'),
+(39,6,'Anderson, Bruen and Bartell','Movies','881 River Street','Royshire'),
+(40,12,'Baumbach - Schiller','Kids','30715 Simon Shore','New Milanfurt'),
+(41,28,'Tremblay - Braun','Jewelry','98962 Rodger Mews','East Rhianna'),
+(42,6,'Bernier - Effertz','Industrial','154 Woodlands Road','East Lucioberg'),
+(43,8,'Bradtke LLC','Toys','859 Gladstone Road','Metzville'),
+(44,20,'Greenholt - Bruen','Tools','4708 Vandervort-Cronin Fort','Fort Markworth'),
+(45,11,'Sauer LLC','Beauty','932 Cormier Dale','Rolandoborough'),
+(46,24,'Schaden Inc','Shoes','6998 Simon Mountain','Fort Isac'),
+(47,28,'Bosco Inc','Outdoors','1121 N 5th Street','Lake Malikashire'),
+(48,28,'Cole - Donnelly','Games','3269 Alda Green','North Angelo'),
+(49,25,'Heathcote Inc','Music','7385 Roger Brook','Middletown'),
+(50,1,'Sawayn, Grimes and Yundt','Jewelry','201 Oak Street','Haileystead'),
+(51,33,'Medhurst Group','Baby','73025 Jones Trace','Devenfield'),
+(52,58,'Ankunding LLC','Games','54653 Derby Road','Port Hannahview'),
+(53,46,'Beer Group','Beauty','95976 Yolanda Rapid','Corona'),
+(54,40,'Klocko - Beatty','Beauty','929 Priscilla Junctions','East Olaffield'),
+(55,48,'Mitchell Inc','Sports','5250 Rex Extension','Terenceview'),
+(56,57,'Parker LLC','Books','5872 Wiza Corner','Rachaelborough'),
+(57,44,'Labadie, Marks and Doyle','Kids','28453 Kent Road','Port Mya'),
+(58,32,'Beer-O\'Reilly, Crooks and Johns','Automotive','459 Justen Ville','East Kate'),
+(59,59,'Roob Group','Grocery','6211 S Main','Keelingfort'),
+(60,40,'McDermott, Ferry and West','Baby','42157 Dayana Views','North Sean'),
+(61,47,'Witting Inc','Movies','465 West Streets','Horacestead'),
+(62,55,'Ondricka-O\'Hara, Rodriguez and Kuvalis','Health','22892 Flavie Viaduct','Honolulu'),
+(63,39,'Fay Group','Automotive','8183 Delia Well','Port Darin'),
+(64,58,'Roberts - Fadel','Automotive','28426 S Grand Avenue','New Dantetown'),
+(65,52,'Gleichner - Heathcote','Grocery','7877 Dooley Lock','West Claude'),
+(66,39,'Aufderhar - Turcotte','Toys','826 Juniper Close','Lake Tedchester'),
+(67,55,'Koss Group','Books','5289 Lindgren Ramp','North Marleechester'),
+(68,56,'Rice and Sons','Health','8225 University Avenue','Fort Sandrastad'),
+(69,32,'Harvey - Jerde','Computers','698 Stokes Union','New Ebonyside'),
+(70,44,'Lesch - Jacobi','Toys','80175 Spring Gardens','Patsyport'),
+(71,31,'Friesen Inc','Grocery','4463 Schaden Streets','North Jana'),
+(72,31,'Wintheiser, Thompson and Bayer','Industrial','3593 Crystal Light','Napa'),
+(73,42,'Huels - Bogan','Computers','853 Hugh Landing','Fort Mayetown'),
+(74,32,'McLaughlin Inc','Garden','3865 Evelyn Hill','Great Falls'),
+(75,60,'Marks - Fisher','Jewelry','75130 Gibson Unions','O\'Connellcester'),
+(76,43,'Willms LLC','Music','35754 Bradford Station','North Gilberto'),
+(77,57,'Oberbrunner Group','Tools','3290 Leffler Oval','Grimesside'),
+(78,43,'Bernier - Bode','Kids','8736 Meadow Close','Kuhlmanchester'),
+(79,50,'Stark, Stamm and Strosin','Grocery','63667 Stroman Flat','East Vitaworth'),
+(80,42,'Huel LLC','Books','7961 Beechwood Avenue','North Abrahamport'),
+(81,48,'Bode, Gerlach and Conn','Industrial','139 Delaney Fields','Essieboro'),
+(82,43,'Nicolas and Sons','Sports','19119 Adonis Heights','Lionelchester'),
+(83,36,'Marks Inc','Industrial','45505 Moss Lane','Trevorton'),
+(84,58,'Crist, Hermiston and Morissette','Shoes','996 Cole Mall','South Gustavoshire'),
+(85,44,'Moore-Gottlieb LLC','Electronics','334 Cronin-Mosciski Place','Rogahnstead'),
+(86,48,'Kozey - Effertz','Computers','9793 Sonja Flat','West Marcella'),
+(87,46,'Bins, Hills and Monahan','Kids','4214 Annalise Knolls','Wilkinson-Gusikowskicester'),
+(88,42,'Padberg - Lowe','Grocery','9433 North Road','Johnsonview'),
+(89,37,'Schultz, Mills-King and Mann','Movies','961 E 12th Street','West Kianmouth'),
+(90,42,'Brown - Kling','Tools','4592 S 10th Street','New Julio'),
+(91,42,'Halvorson - Becker','Computers','43167 McLaughlin Cape','Flint'),
+(92,46,'Boyer, McClure and Kerluke','Automotive','513 Durgan-Sawayn Port','Nicolasberg'),
+(93,33,'Torp LLC','Games','1182 Judah Parkway','Weymouth Town'),
+(94,39,'Hettinger - Hoppe','Clothing','25354 Runolfsdottir Gardens','North Juliemouth'),
+(95,43,'Schmeler Group','Books','23637 St Mary\'s Road','Lake Kirk'),
+(96,42,'Sawayn, Herman and Douglas','Jewelry','8611 Fritsch Meadow','Kuvalishaven'),
+(97,49,'Huel, O\'Connell and Smitham','Baby','36389 Lucius Junctions','East Huldacester'),
+(98,34,'Little - Terry','Outdoors','83021 Keebler Mountains','Fort Aleenbury'),
+(99,40,'Erdman - Schneider','Automotive','7997 Brigitte Lakes','Lillianside'),
+(100,35,'Towne, Davis and Ratke','Games','4807 Alicia Forest','Lake Fidelview');
 /*!40000 ALTER TABLE `brand` ENABLE KEYS */;
 UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
 --
 -- Table structure for table `brand_telephone`
@@ -162,6 +160,7 @@ CREATE TABLE `brand_telephone` (
   `company_id` int(11) NOT NULL,
   `no_telephone` varchar(25) NOT NULL,
   PRIMARY KEY (`company_id`,`no_telephone`),
+  UNIQUE KEY `uq_brand_telephone` (`no_telephone`),
   CONSTRAINT `fk_telephone_brand` FOREIGN KEY (`company_id`) REFERENCES `brand` (`company_id`) ON UPDATE CASCADE,
   CONSTRAINT `chk_type_phone` CHECK (`no_telephone` regexp '^[0-9+(). x-]+$')
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -171,7 +170,6 @@ CREATE TABLE `brand_telephone` (
 -- Dumping data for table `brand_telephone`
 --
 
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `brand_telephone` WRITE;
 /*!40000 ALTER TABLE `brand_telephone` DISABLE KEYS */;
 INSERT INTO `brand_telephone` VALUES
@@ -277,8 +275,6 @@ INSERT INTO `brand_telephone` VALUES
 (98,'(675) 345-7835 x9640');
 /*!40000 ALTER TABLE `brand_telephone` ENABLE KEYS */;
 UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
 --
 -- Table structure for table `campaign`
@@ -303,7 +299,6 @@ CREATE TABLE `campaign` (
 -- Dumping data for table `campaign`
 --
 
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `campaign` WRITE;
 /*!40000 ALTER TABLE `campaign` DISABLE KEYS */;
 INSERT INTO `campaign` VALUES
@@ -413,27 +408,6 @@ INSERT INTO `campaign` VALUES
 (106,86,'Polarised full-range data-warehouse (3)','draft');
 /*!40000 ALTER TABLE `campaign` ENABLE KEYS */;
 UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = cp850 */ ;
-/*!50003 SET character_set_results = cp850 */ ;
-/*!50003 SET collation_connection  = cp850_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `trg_trans_campaign_status` BEFORE UPDATE ON `campaign` FOR EACH ROW BEGIN
-    IF OLD.campaign_status = 'closed' AND NEW.campaign_status != 'closed' THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Campaign yang sudah closed tidak dapat dikembalikan statusnya';
-    END IF;
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `collaborates`
@@ -460,7 +434,6 @@ CREATE TABLE `collaborates` (
 -- Dumping data for table `collaborates`
 --
 
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `collaborates` WRITE;
 /*!40000 ALTER TABLE `collaborates` DISABLE KEYS */;
 INSERT INTO `collaborates` VALUES
@@ -665,27 +638,6 @@ INSERT INTO `collaborates` VALUES
 (200,93,71,'proposed');
 /*!40000 ALTER TABLE `collaborates` ENABLE KEYS */;
 UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = cp850 */ ;
-/*!50003 SET character_set_results = cp850 */ ;
-/*!50003 SET collation_connection  = cp850_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `trg_trans_collab_status` BEFORE UPDATE ON `collaborates` FOR EACH ROW BEGIN
-    IF OLD.collaboration_status IN ('declined', 'cancelled') THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Status kolaborasi final tidak dapat diubah';
-    END IF;
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `influencer`
@@ -708,7 +660,6 @@ CREATE TABLE `influencer` (
 -- Dumping data for table `influencer`
 --
 
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `influencer` WRITE;
 /*!40000 ALTER TABLE `influencer` DISABLE KEYS */;
 INSERT INTO `influencer` VALUES
@@ -814,8 +765,6 @@ INSERT INTO `influencer` VALUES
 (100,'Nicolas_Heidenreich@gmail.com','Chase Mitchell');
 /*!40000 ALTER TABLE `influencer` ENABLE KEYS */;
 UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
 --
 -- Table structure for table `influencer_list`
@@ -838,7 +787,6 @@ CREATE TABLE `influencer_list` (
 -- Dumping data for table `influencer_list`
 --
 
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `influencer_list` WRITE;
 /*!40000 ALTER TABLE `influencer_list` DISABLE KEYS */;
 INSERT INTO `influencer_list` VALUES
@@ -944,8 +892,6 @@ INSERT INTO `influencer_list` VALUES
 (100,45,'Games List');
 /*!40000 ALTER TABLE `influencer_list` ENABLE KEYS */;
 UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
 --
 -- Table structure for table `instagrwm_profile`
@@ -966,7 +912,6 @@ CREATE TABLE `instagrwm_profile` (
 -- Dumping data for table `instagrwm_profile`
 --
 
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `instagrwm_profile` WRITE;
 /*!40000 ALTER TABLE `instagrwm_profile` DISABLE KEYS */;
 INSERT INTO `instagrwm_profile` VALUES
@@ -999,8 +944,6 @@ INSERT INTO `instagrwm_profile` VALUES
 (60,47);
 /*!40000 ALTER TABLE `instagrwm_profile` ENABLE KEYS */;
 UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
 --
 -- Table structure for table `joins_user_workspace`
@@ -1023,245 +966,205 @@ CREATE TABLE `joins_user_workspace` (
 -- Dumping data for table `joins_user_workspace`
 --
 
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `joins_user_workspace` WRITE;
 /*!40000 ALTER TABLE `joins_user_workspace` DISABLE KEYS */;
 INSERT INTO `joins_user_workspace` VALUES
-(2,1),
-(4,1),
-(14,1),
-(16,1),
-(19,1),
-(22,1),
-(26,1),
-(12,2),
-(15,2),
-(3,3),
-(6,3),
-(8,3),
-(23,3),
-(26,3),
 (1,4),
-(6,4),
-(13,4),
-(28,4),
-(16,5),
+(1,13),
+(1,19),
+(1,30),
+(2,1),
+(2,13),
+(2,17),
+(2,27),
+(2,30),
+(3,3),
+(3,14),
+(3,19),
+(4,1),
+(4,20),
+(4,21),
+(4,23),
 (5,6),
+(6,3),
+(6,4),
+(6,15),
+(6,22),
+(7,8),
+(7,15),
+(8,3),
+(8,20),
+(8,23),
+(8,25),
+(9,9),
+(9,11),
+(9,29),
+(10,9),
+(10,24),
+(12,2),
+(12,22),
+(12,29),
+(13,4),
+(13,15),
+(13,16),
+(13,21),
+(13,22),
+(13,24),
+(13,25),
+(14,1),
+(14,21),
+(15,2),
+(15,9),
+(15,13),
+(15,23),
+(16,1),
+(16,5),
+(16,18),
+(16,24),
+(16,28),
+(17,15),
+(17,17),
+(17,20),
+(17,23),
+(18,10),
+(19,1),
+(19,8),
+(19,12),
+(19,14),
+(19,17),
+(19,21),
+(20,10),
+(20,24),
 (21,6),
 (21,7),
-(29,7),
-(7,8),
-(19,8),
-(27,8),
-(9,9),
-(10,9),
-(15,9),
-(23,9),
-(29,9),
-(18,10),
-(20,10),
-(30,10),
-(9,11),
-(19,12),
-(28,12),
-(30,12),
-(1,13),
-(2,13),
-(15,13),
-(28,13),
-(3,14),
-(19,14),
-(6,15),
-(7,15),
-(13,15),
-(17,15),
-(22,15),
-(23,15),
-(13,16),
-(30,16),
-(2,17),
-(17,17),
-(19,17),
-(16,18),
-(1,19),
-(3,19),
-(24,19),
-(29,19),
-(4,20),
-(8,20),
-(17,20),
 (21,20),
-(4,21),
-(13,21),
-(14,21),
-(19,21),
-(6,22),
-(12,22),
-(13,22),
-(4,23),
-(8,23),
-(15,23),
-(17,23),
-(24,23),
-(29,23),
-(10,24),
-(13,24),
-(16,24),
-(20,24),
-(24,24),
-(29,24),
-(8,25),
-(13,25),
 (21,25),
-(2,27),
-(16,28),
-(23,28),
-(30,28),
-(9,29),
-(12,29),
+(22,1),
+(22,15),
 (22,29),
-(27,29),
-(1,30),
-(2,30),
+(23,3),
+(23,9),
+(23,15),
+(23,28),
+(24,19),
+(24,23),
+(24,24),
 (24,30),
-(45,31),
-(48,31),
-(57,31),
-(59,31),
-(32,32),
-(45,32),
-(49,32),
-(51,32),
-(38,33),
-(51,33),
-(53,33),
-(54,33),
-(58,34),
-(32,35),
-(37,35),
-(43,35),
+(26,1),
+(26,3),
+(27,8),
+(27,29),
+(28,4),
+(28,12),
+(28,13),
+(29,7),
+(29,9),
+(29,19),
+(29,23),
+(29,24),
+(30,10),
+(30,12),
+(30,16),
+(30,28),
 (31,36),
-(37,36),
-(38,36),
-(59,36),
-(38,37),
-(40,37),
-(49,37),
-(60,37),
-(32,38),
-(52,38),
-(40,39),
-(48,39),
-(38,41),
-(57,41),
-(36,42),
-(40,42),
-(44,42),
-(56,42),
-(57,42),
-(60,42),
-(60,43),
-(48,44),
 (31,45),
-(35,45),
-(46,45),
+(31,48),
+(31,50),
+(31,51),
+(31,54),
+(31,58),
+(32,32),
+(32,35),
+(32,38),
+(32,53),
 (33,46),
+(34,56),
+(34,58),
+(34,59),
+(34,60),
+(35,45),
+(35,50),
+(35,52),
+(36,42),
+(36,55),
+(37,35),
+(37,36),
+(37,49),
+(37,51),
+(38,33),
+(38,36),
+(38,37),
+(38,41),
 (38,46),
+(38,49),
+(39,47),
+(39,56),
+(40,37),
+(40,39),
+(40,42),
+(41,47),
+(41,48),
+(41,51),
+(42,54),
+(43,35),
 (43,46),
+(43,48),
+(43,50),
+(44,42),
+(45,31),
+(45,32),
+(46,45),
+(46,49),
+(46,53),
+(46,56),
+(47,55),
+(47,58),
+(47,59),
+(48,31),
+(48,39),
+(48,44),
+(48,47),
+(48,60),
+(49,32),
+(49,37),
+(49,47),
+(49,50),
+(49,51),
+(50,55),
+(50,58),
+(51,32),
+(51,33),
+(52,38),
+(52,55),
+(52,59),
+(53,33),
+(53,57),
+(54,33),
 (54,46),
 (55,46),
-(59,46),
-(39,47),
-(41,47),
-(48,47),
-(49,47),
-(31,48),
-(41,48),
-(43,48),
-(59,48),
-(37,49),
-(38,49),
-(46,49),
+(56,42),
+(57,31),
+(57,41),
+(57,42),
 (57,49),
-(60,49),
-(31,50),
-(35,50),
-(43,50),
-(49,50),
-(31,51),
-(37,51),
-(41,51),
-(49,51),
-(35,52),
-(32,53),
-(46,53),
-(31,54),
-(42,54),
+(58,34),
 (58,54),
-(36,55),
-(47,55),
-(50,55),
-(52,55),
-(59,55),
-(34,56),
-(39,56),
-(46,56),
-(53,57),
-(60,57),
-(31,58),
-(34,58),
-(47,58),
-(50,58),
 (58,58),
-(34,59),
-(47,59),
-(52,59),
-(34,60),
-(48,60),
+(59,31),
+(59,36),
+(59,46),
+(59,48),
+(59,55),
+(60,37),
+(60,42),
+(60,43),
+(60,49),
+(60,57),
 (61,61),
 (62,61),
 (63,61);
 /*!40000 ALTER TABLE `joins_user_workspace` ENABLE KEYS */;
 UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = cp850 */ ;
-/*!50003 SET character_set_results = cp850 */ ;
-/*!50003 SET collation_connection  = cp850_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `trg_workspace_capacity` BEFORE INSERT ON `joins_user_workspace` FOR EACH ROW BEGIN
-    DECLARE current_count INT;
-    DECLARE capacity_limit INT;
-
-    SELECT wc.max_capacity
-    INTO capacity_limit
-    FROM workspace w
-    JOIN workspace_capacity wc
-        ON w.subscription_plan = wc.subscription_plan
-    WHERE w.workspace_id = NEW.workspace_id;
-
-    IF capacity_limit IS NOT NULL THEN
-        SELECT COUNT(*)
-        INTO current_count
-        FROM joins_user_workspace
-        WHERE workspace_id = NEW.workspace_id;
-
-        IF current_count >= capacity_limit THEN
-            SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Workspace capacity exceeded';
-        END IF;
-    END IF;
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `list_entry`
@@ -1288,7 +1191,6 @@ CREATE TABLE `list_entry` (
 -- Dumping data for table `list_entry`
 --
 
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `list_entry` WRITE;
 /*!40000 ALTER TABLE `list_entry` DISABLE KEYS */;
 INSERT INTO `list_entry` VALUES
@@ -1579,33 +1481,6 @@ INSERT INTO `list_entry` VALUES
 (100,82,47,'Adhuc adsidue deripio apparatus audeo tonsor corporis derideo.');
 /*!40000 ALTER TABLE `list_entry` ENABLE KEYS */;
 UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = cp850 */ ;
-/*!50003 SET character_set_results = cp850 */ ;
-/*!50003 SET collation_connection  = cp850_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `trg_db_check_list_user` BEFORE INSERT ON `list_entry` FOR EACH ROW BEGIN
-    DECLARE list_ws_id INT;
-    DECLARE user_ws_count INT;
-
-    SELECT workspace_id INTO list_ws_id FROM influencer_list WHERE list_id = NEW.list_id;
-    SELECT COUNT(*) INTO user_ws_count FROM joins_user_workspace WHERE user_id = NEW.user_id AND workspace_id = list_ws_id;
-
-    IF user_ws_count = 0 THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'User tidak berada dalam workspace list tersebut';
-    END IF;
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `post`
@@ -1635,7 +1510,6 @@ CREATE TABLE `post` (
 -- Dumping data for table `post`
 --
 
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `post` WRITE;
 /*!40000 ALTER TABLE `post` DISABLE KEYS */;
 INSERT INTO `post` VALUES
@@ -1741,8 +1615,6 @@ INSERT INTO `post` VALUES
 (100,69,30,'https://eminent-leading.info',5525,5525);
 /*!40000 ALTER TABLE `post` ENABLE KEYS */;
 UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
 --
 -- Table structure for table `profile_day_metric`
@@ -1764,7 +1636,6 @@ CREATE TABLE `profile_day_metric` (
 -- Dumping data for table `profile_day_metric`
 --
 
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `profile_day_metric` WRITE;
 /*!40000 ALTER TABLE `profile_day_metric` DISABLE KEYS */;
 INSERT INTO `profile_day_metric` VALUES
@@ -1830,8 +1701,131 @@ INSERT INTO `profile_day_metric` VALUES
 (60,'2026-05-20',467865);
 /*!40000 ALTER TABLE `profile_day_metric` ENABLE KEYS */;
 UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `region`
+--
+
+DROP TABLE IF EXISTS `region`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `region` (
+  `street` varchar(150) NOT NULL,
+  `city` varchar(60) NOT NULL,
+  `province` varchar(60) NOT NULL,
+  PRIMARY KEY (`street`,`city`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `region`
+--
+
+LOCK TABLES `region` WRITE;
+/*!40000 ALTER TABLE `region` DISABLE KEYS */;
+INSERT INTO `region` VALUES
+('109 W North Street','Manchester','Unknown_Province'),
+('1121 N 5th Street','Lake Malikashire','Unknown_Province'),
+('1182 Judah Parkway','Weymouth Town','Unknown_Province'),
+('1379 Labadie-Ortiz Light','South Megane','Unknown_Province'),
+('139 Delaney Fields','Essieboro','Unknown_Province'),
+('154 Woodlands Road','East Lucioberg','Unknown_Province'),
+('19119 Adonis Heights','Lionelchester','Unknown_Province'),
+('201 Oak Street','Haileystead','Unknown_Province'),
+('22892 Flavie Viaduct','Honolulu','Unknown_Province'),
+('23637 St Mary\'s Road','Lake Kirk','Unknown_Province'),
+('25354 Runolfsdottir Gardens','North Juliemouth','Unknown_Province'),
+('25581 East Road','East Maritza','Unknown_Province'),
+('28426 S Grand Avenue','New Dantetown','Unknown_Province'),
+('28453 Kent Road','Port Mya','Unknown_Province'),
+('30715 Simon Shore','New Milanfurt','Unknown_Province'),
+('32437 Central Avenue','North Lexiefield','Unknown_Province'),
+('3269 Alda Green','North Angelo','Unknown_Province'),
+('3290 Leffler Oval','Grimesside','Unknown_Province'),
+('334 Cronin-Mosciski Place','Rogahnstead','Unknown_Province'),
+('35754 Bradford Station','North Gilberto','Unknown_Province'),
+('3593 Crystal Light','Napa','Unknown_Province'),
+('36389 Lucius Junctions','East Huldacester','Unknown_Province'),
+('3865 Evelyn Hill','Great Falls','Unknown_Province'),
+('4214 Annalise Knolls','Wilkinson-Gusikowskicester','Unknown_Province'),
+('42157 Dayana Views','North Sean','Unknown_Province'),
+('43167 McLaughlin Cape','Flint','Unknown_Province'),
+('4332 1st Avenue','North Vivianbury','Unknown_Province'),
+('44550 Adams Ways','Beckerside','Unknown_Province'),
+('4463 Schaden Streets','North Jana','Unknown_Province'),
+('45505 Moss Lane','Trevorton','Unknown_Province'),
+('458 Main Street','New Delia','Unknown_Province'),
+('459 Justen Ville','East Kate','Unknown_Province'),
+('4592 S 10th Street','New Julio','Unknown_Province'),
+('465 West Streets','Horacestead','Unknown_Province'),
+('4708 Vandervort-Cronin Fort','Fort Markworth','Unknown_Province'),
+('471 Ebert Extension','Doloresburgh','Unknown_Province'),
+('4807 Alicia Forest','Lake Fidelview','Unknown_Province'),
+('513 Durgan-Sawayn Port','Nicolasberg','Unknown_Province'),
+('5250 Rex Extension','Terenceview','Unknown_Province'),
+('5289 Lindgren Ramp','North Marleechester','Unknown_Province'),
+('52950 Bernier Bridge','East Randalstead','Unknown_Province'),
+('53768 Balmoral Road','Waelchiville','Unknown_Province'),
+('54477 White Causeway','Norwoodberg','Unknown_Province'),
+('54653 Derby Road','Port Hannahview','Unknown_Province'),
+('55786 Antoinette Point','Bobbieworth','Unknown_Province'),
+('573 Fisher Cove','North Nina','Unknown_Province'),
+('58277 Koss Glens','Victorville','Unknown_Province'),
+('5872 Wiza Corner','Rachaelborough','Unknown_Province'),
+('61054 Melissa Roads','Bergstromshire','Unknown_Province'),
+('6211 S Main','Keelingfort','Unknown_Province'),
+('6334 Bethany Forks','Tiaton','Unknown_Province'),
+('63667 Stroman Flat','East Vitaworth','Unknown_Province'),
+('641 Sheryl Cliffs','New Mable','Unknown_Province'),
+('683 Roman Way','North Dianaburgh','Unknown_Province'),
+('6876 Bartell Islands','Lubowitzside','Unknown_Province'),
+('698 Stokes Union','New Ebonyside','Unknown_Province'),
+('6998 Simon Mountain','Fort Isac','Unknown_Province'),
+('725 Lynch Shores','Parker','Unknown_Province'),
+('73025 Jones Trace','Devenfield','Unknown_Province'),
+('7385 Roger Brook','Middletown','Unknown_Province'),
+('74941 Hyatt Hills','Santa Maria','Unknown_Province'),
+('75130 Gibson Unions','O\'Connellcester','Unknown_Province'),
+('7649 Jordon Road','Lake Vernice','Unknown_Province'),
+('774 Adams Avenue','Wunschview','Unknown_Province'),
+('7877 Dooley Lock','West Claude','Unknown_Province'),
+('7961 Beechwood Avenue','North Abrahamport','Unknown_Province'),
+('7971 Kings Highway','Laguna Niguel','Unknown_Province'),
+('7997 Brigitte Lakes','Lillianside','Unknown_Province'),
+('80175 Spring Gardens','Patsyport','Unknown_Province'),
+('813 Bartoletti Coves','Coachella','Unknown_Province'),
+('8183 Delia Well','Port Darin','Unknown_Province'),
+('821 S 9th Street','Kimberlymouth','Unknown_Province'),
+('8225 University Avenue','Fort Sandrastad','Unknown_Province'),
+('826 Juniper Close','Lake Tedchester','Unknown_Province'),
+('83021 Keebler Mountains','Fort Aleenbury','Unknown_Province'),
+('835 Highfield Close','Schulistfort','Unknown_Province'),
+('83920 Leda Burgs','North Bonnieberg','Unknown_Province'),
+('84219 Walnut Street','East Hassanview','Unknown_Province'),
+('853 Hugh Landing','Fort Mayetown','Unknown_Province'),
+('85603 Gibson Corners','Lake Aldaburgh','Unknown_Province'),
+('859 Gladstone Road','Metzville','Unknown_Province'),
+('861 Rita Mills','Fay-Simoniston','Unknown_Province'),
+('8611 Fritsch Meadow','Kuvalishaven','Unknown_Province'),
+('8736 Meadow Close','Kuhlmanchester','Unknown_Province'),
+('8761 E 7th Street','East Milo','Unknown_Province'),
+('8801 Michaela Manor','East Ida','Unknown_Province'),
+('881 River Street','Royshire','Unknown_Province'),
+('89332 N Market Street','Lorenzachester','Unknown_Province'),
+('929 Priscilla Junctions','East Olaffield','Unknown_Province'),
+('932 Cormier Dale','Rolandoborough','Unknown_Province'),
+('9375 Cory Trail','Horaceworth','Unknown_Province'),
+('9433 North Road','Johnsonview','Unknown_Province'),
+('9532 Howard Road','Philipside','Unknown_Province'),
+('95976 Yolanda Rapid','Corona','Unknown_Province'),
+('961 E 12th Street','West Kianmouth','Unknown_Province'),
+('9735 Ankunding Expressway','Millston','Unknown_Province'),
+('9793 Sonja Flat','West Marcella','Unknown_Province'),
+('9817 Steve Lock','Buckridgeville','Unknown_Province'),
+('98962 Rodger Mews','East Rhianna','Unknown_Province'),
+('996 Cole Mall','South Gustavoshire','Unknown_Province');
+/*!40000 ALTER TABLE `region` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `social_media_profile`
@@ -1851,7 +1845,8 @@ CREATE TABLE `social_media_profile` (
   UNIQUE KEY `uq_handle_per_platform` (`handle`,`platform`),
   KEY `influencer_id` (`influencer_id`),
   CONSTRAINT `social_media_profile_ibfk_1` FOREIGN KEY (`influencer_id`) REFERENCES `influencer` (`influencer_id`),
-  CONSTRAINT `chk_platform` CHECK (`platform` in (_utf8mb4'instagrwm',_utf8mb4'tiktik'))
+  CONSTRAINT `chk_platform` CHECK (`platform` in (_utf8mb4'instagrwm',_utf8mb4'tiktik')),
+  CONSTRAINT `chk_followers_positive` CHECK (`followers_count` >= 0)
 ) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1859,7 +1854,6 @@ CREATE TABLE `social_media_profile` (
 -- Dumping data for table `social_media_profile`
 --
 
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `social_media_profile` WRITE;
 /*!40000 ALTER TABLE `social_media_profile` DISABLE KEYS */;
 INSERT INTO `social_media_profile` VALUES
@@ -1925,8 +1919,6 @@ INSERT INTO `social_media_profile` VALUES
 (60,64,'Hobart.Considine11',467865,1,'instagrwm');
 /*!40000 ALTER TABLE `social_media_profile` ENABLE KEYS */;
 UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
 --
 -- Table structure for table `task`
@@ -1960,7 +1952,6 @@ CREATE TABLE `task` (
 -- Dumping data for table `task`
 --
 
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `task` WRITE;
 /*!40000 ALTER TABLE `task` DISABLE KEYS */;
 INSERT INTO `task` VALUES
@@ -2070,127 +2061,6 @@ INSERT INTO `task` VALUES
 (106,NULL,105,'ustilo claro conduco','Video Post','2026-09-02',2477709.29,'draft','Celebrer timor aliquid sub antiquus. Casus carpo ulterius coma decet sponte. Cohors cotidie caterva.');
 /*!40000 ALTER TABLE `task` ENABLE KEYS */;
 UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = cp850 */ ;
-/*!50003 SET character_set_results = cp850 */ ;
-/*!50003 SET collation_connection  = cp850_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `trg_db_check_task_campaign` BEFORE INSERT ON `task` FOR EACH ROW BEGIN
-    DECLARE col_campaign_id INT;
-    IF NEW.collaborates_id IS NOT NULL THEN
-        SELECT campaign_id INTO col_campaign_id FROM collaborates WHERE collaborates_id = NEW.collaborates_id;
-        IF NEW.campaign_id != col_campaign_id THEN
-            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Campaign ID pada task tidak cocok dengan collaborates';
-        END IF;
-    END IF;
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_uca1400_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER trg_prevent_task_status_regression
-BEFORE UPDATE ON task
-FOR EACH ROW
-BEGIN
-    IF (
-        (OLD.task_status = 'draft' AND NEW.task_status IN ('done', 'missing'))
-        OR
-        (OLD.task_status = 'assigned' AND NEW.task_status = 'draft')
-        OR
-        (OLD.task_status IN ('done', 'missing') AND NEW.task_status <> OLD.task_status)
-    ) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Task status cannot move backward or skip stages';
-    END IF;
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = cp850 */ ;
-/*!50003 SET character_set_results = cp850 */ ;
-/*!50003 SET collation_connection  = cp850_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `trg_log_task_status_update` AFTER UPDATE ON `task` FOR EACH ROW BEGIN
-    IF OLD.task_status <> NEW.task_status THEN
-        INSERT INTO task_status_log (
-            task_id,
-            old_status,
-            new_status,
-            changed_at
-        )
-        VALUES (
-            OLD.task_id,
-            OLD.task_status,
-            NEW.task_status,
-            NOW()
-        );
-    END IF;
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-
---
--- Table structure for table `task_status_log`
---
-
-DROP TABLE IF EXISTS `task_status_log`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `task_status_log` (
-  `log_id` int(11) NOT NULL AUTO_INCREMENT,
-  `task_id` int(11) NOT NULL,
-  `old_status` varchar(20) NOT NULL,
-  `new_status` varchar(20) NOT NULL,
-  `changed_at` datetime NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`log_id`),
-  KEY `task_id` (`task_id`),
-  CONSTRAINT `task_status_log_ibfk_1` FOREIGN KEY (`task_id`) REFERENCES `task` (`task_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `task_status_log`
---
-
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `task_status_log` WRITE;
-/*!40000 ALTER TABLE `task_status_log` DISABLE KEYS */;
-INSERT INTO `task_status_log` VALUES
-(1,1,'missing','assigned','2026-05-20 04:36:47'),
-(2,11,'draft','assigned','2026-05-20 04:38:22'),
-(3,11,'assigned','done','2026-05-20 09:52:02'),
-(4,12,'draft','assigned','2026-05-20 20:00:52'),
-(5,12,'assigned','done','2026-05-20 20:02:28');
-/*!40000 ALTER TABLE `task_status_log` ENABLE KEYS */;
-UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
 --
 -- Table structure for table `tiktik_profile`
@@ -2211,7 +2081,6 @@ CREATE TABLE `tiktik_profile` (
 -- Dumping data for table `tiktik_profile`
 --
 
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `tiktik_profile` WRITE;
 /*!40000 ALTER TABLE `tiktik_profile` DISABLE KEYS */;
 INSERT INTO `tiktik_profile` VALUES
@@ -2250,8 +2119,6 @@ INSERT INTO `tiktik_profile` VALUES
 (59,236444);
 /*!40000 ALTER TABLE `tiktik_profile` ENABLE KEYS */;
 UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
 --
 -- Table structure for table `user_account`
@@ -2274,7 +2141,6 @@ CREATE TABLE `user_account` (
 -- Dumping data for table `user_account`
 --
 
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `user_account` WRITE;
 /*!40000 ALTER TABLE `user_account` DISABLE KEYS */;
 INSERT INTO `user_account` VALUES
@@ -2344,8 +2210,6 @@ INSERT INTO `user_account` VALUES
 (64,'pansy_test_user4','hashed_pass_4');
 /*!40000 ALTER TABLE `user_account` ENABLE KEYS */;
 UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
 --
 -- Table structure for table `workspace`
@@ -2370,7 +2234,6 @@ CREATE TABLE `workspace` (
 -- Dumping data for table `workspace`
 --
 
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `workspace` WRITE;
 /*!40000 ALTER TABLE `workspace` DISABLE KEYS */;
 INSERT INTO `workspace` VALUES
@@ -2437,8 +2300,6 @@ INSERT INTO `workspace` VALUES
 (61,'Pansy Pro Workspace','professional');
 /*!40000 ALTER TABLE `workspace` ENABLE KEYS */;
 UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
 --
 -- Table structure for table `workspace_capacity`
@@ -2458,7 +2319,6 @@ CREATE TABLE `workspace_capacity` (
 -- Dumping data for table `workspace_capacity`
 --
 
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `workspace_capacity` WRITE;
 /*!40000 ALTER TABLE `workspace_capacity` DISABLE KEYS */;
 INSERT INTO `workspace_capacity` VALUES
@@ -2467,8 +2327,6 @@ INSERT INTO `workspace_capacity` VALUES
 ('professional',3);
 /*!40000 ALTER TABLE `workspace_capacity` ENABLE KEYS */;
 UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -2477,6 +2335,6 @@ SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-05-20 20:08:07
+-- Dump completed on 2026-05-20 20:42:48
